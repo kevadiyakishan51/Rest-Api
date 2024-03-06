@@ -1,0 +1,102 @@
+<?php
+
+namespace KK\CustomApi\Model;
+
+use KK\CustomApi\Api\CustomInterface;
+use KK\CustomApi\Api\Data\MyApiResponseInterfaceFactory;
+
+
+class MyApi implements CustomInterface
+{
+    /**
+     * @var \KK\Form\Model\ResourceModel\Data
+     */
+    private $tableResource;
+    protected $responseFactory;
+    protected $_jsonEncoder;
+    /**
+     * MyApi constructor.
+     *
+     * @param \KK\Form\Model\ResourceModel\Data $tableResource
+     */
+    public function __construct(
+        \KK\Form\Model\ResourceModel\Data $tableResource,
+        MyApiResponseInterfaceFactory $responseFactory,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
+    ) {
+        $this->tableResource = $tableResource;
+        $this->responseFactory = $responseFactory;
+        $this->_jsonEncoder = $jsonEncoder;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    // public function getMessage()
+    // {
+    //     return "Task Done! KK's Api Run Successfully ✔️";
+    // }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCustomTableData()
+    {
+        return $this->tableResource->getCustomTableData();
+    }
+
+
+    public function customLogger()
+    {
+        $writer = new \Zend_Log_Writer_Stream(BP . '/var/log/custom__.log');
+        $logger = new \Zend_Log();
+        $logger->addWriter($writer);
+        return $logger;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDataById($id)
+    {
+        $response = $this->responseFactory->create();
+        $customLogger = $this->customLogger();
+        $data = $this->tableResource->getDataById($id);
+        $customLogger->info(print_r($data,true));
+        $customLogger->info(gettype($data));
+
+        $response->setName($data['name']);
+        // foreach($data as $rowdata){
+        //     //$customLogger->info("$rowdata['name'] : ".$rowdata['name']);
+        //     // $response->setName($rowdata['name']);
+        // }
+        $jsonData = $this->_jsonEncoder->encode($data);
+        return $response;
+        // return $this->tableResource->getDataById($id);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addData(array $data)
+    {
+        return $this->tableResource->addData($data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function updateData($id, array $data)
+    {
+        return $this->tableResource->updateData($id, $data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteData($id)
+    {
+        return $this->tableResource->deleteData($id);
+    }
+
+}

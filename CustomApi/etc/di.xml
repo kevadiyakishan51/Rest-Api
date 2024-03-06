@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="KK\CustomApi\Api\CustomInterface" type="KK\CustomApi\Model\MyApi"/>
+    <preference for="KK\CustomApi\Api\Data\MyApiResponseInterface" type="KK\CustomApi\Model\Response\MyApiDataResponse"/>
+    <preference for="KK\CustomApi\Api\DataInterface" type="KK\CustomApi\Model\Data" />
+    <preference for="KK\CustomApi\Api\DeleteDataInterface" type="KK\CustomApi\Model\DeleteData" />
+</config>

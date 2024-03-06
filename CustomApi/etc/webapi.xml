@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../app/code/Magento/Webapi/etc/webapi.xsd">
+    <route method="GET" url="/V1/customapi">
+        <service class="KK\CustomApi\Api\CustomInterface" method="getCustomTableData" />
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route method="GET" url="/V1/customapi/:id">
+        <service class="KK\CustomApi\Api\CustomInterface" method="getDataById" />
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/customapi/delete/:id" method="DELETE">
+        <service class="KK\CustomApi\Api\DeleteDataInterface" method="deleteDataById"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/custom-module/save-data" method="POST">
+        <service class="KK\CustomApi\Api\DataInterface" method="saveData"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+</routes>
